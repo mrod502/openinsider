@@ -11,14 +11,14 @@ func NewClient(opts Options) (Client, error) {
 
 	return &HttpClient{
 		opts: opts,
-		data: gocache.NewInterfaceCache().WithExpiration(opts.Ttl),
+		data: gocache.New[string, interface{}]().WithExpiration(opts.Ttl),
 		cli:  http.DefaultClient,
 	}, nil
 }
 
 type HttpClient struct {
 	opts Options
-	data *gocache.InterfaceCache
+	data *gocache.Cache[string, interface{}]
 	ds   htmlmarshal.Deserializer
 	cli  *http.Client
 }
